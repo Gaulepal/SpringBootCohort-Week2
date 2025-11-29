@@ -1,31 +1,23 @@
 package com.kumar.week2.controllers;
 
 import com.kumar.week2.dto.EmployeeDTO;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 
 @RestController
+@RequestMapping(path = "/employees")
 public class EmployeeController {
 
-  @GetMapping(path = "/")
-  public String getMessage() {
-    return "Hello World!";
-  }
-
   // take id as input
-  @GetMapping("/employees/{employeeId}")
+  @GetMapping("/{employeeId}")
   public EmployeeDTO getEmployeeById(@PathVariable Long employeeId) {
     return new EmployeeDTO(employeeId, "Hora", "go@gm.com", 12, LocalDate.of(2005, 10, 4), true);
   }
 
-  // list of the employees
-  @GetMapping("/employees")
+  // list of the employees -> required false to make it optional -> default is required
+  @GetMapping
   public String getAllEmployees(@RequestParam(required = false) Integer age, @RequestParam(required = false) String name) {
     return "Hello, age is: " + age + " name is: " + name;
   }
-
 }
