@@ -24,8 +24,8 @@ public class EmployeeController {
 
   // list of the employees
   @GetMapping("/employees")
-  public String getAllEmployees(@RequestParam Integer age) {
-    return "Hello, age is: " + age;
+  public String getAllEmployees(@RequestParam(required = false) Integer age, @RequestParam(required = false) String name) {
+    return "Hello, age is: " + age + " name is: " + name;
   }
 
 }
