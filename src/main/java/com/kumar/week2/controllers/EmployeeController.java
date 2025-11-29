@@ -11,8 +11,8 @@ public class EmployeeController {
 
   // take id as input
   @GetMapping("/{employeeId}")
-  public EmployeeDTO getEmployeeById(@PathVariable Long employeeId) {
-    return new EmployeeDTO(employeeId, "Hora", "go@gm.com", 12, LocalDate.of(2005, 10, 4), true);
+  public EmployeeDTO getEmployeeById(@PathVariable(name = "employeeId") Long id) {
+    return new EmployeeDTO(id, "Hora", "go@gm.com", 12, LocalDate.of(2005, 10, 4), true);
   }
 
   // list of the employees -> required false to make it optional -> default is required
