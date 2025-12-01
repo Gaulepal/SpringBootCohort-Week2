@@ -40,4 +40,11 @@ public class EmployeeController {
   public EmployeeDTO updateEmployeeById(@RequestBody EmployeeDTO employeeDTO, @PathVariable Long employeeId) {
     return employeeService.updateEmployeeById(employeeId, employeeDTO);
   }
+
+  // delete by employeeId
+  @DeleteMapping(path = "/{employeeId}")
+  public void deleteEmployeeById(@PathVariable Long employeeId) {
+    employeeService.deleteEmployeeById(employeeId);
+  }
+
 }

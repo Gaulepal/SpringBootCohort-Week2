@@ -57,6 +57,7 @@ public class EmployeeService {
   }
 
   public EmployeeDTO updateEmployeeById(Long employeeId, EmployeeDTO employeeDTO) {
+    // first search the employeeById
     EmployeeEntity employeeEntity = employeeRepository.findById(employeeId)
             .orElseThrow(() -> new ResponseStatusException(
                     HttpStatus.NOT_FOUND,
@@ -69,4 +70,13 @@ public class EmployeeService {
     EmployeeEntity savedEmployee = employeeRepository.save(employeeEntity);
     return modelMapper.map(savedEmployee, EmployeeDTO.class);
   }
+
+  public void deleteEmployeeById(Long employeeId) {
+    try {
+      employeeRepository.deleteById(employeeId);
+    } catch (Exception e) {
+      System.out.println("error while deleting... " + e);
+    }
+  }
+
 }
