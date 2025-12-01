@@ -5,6 +5,7 @@ import com.kumar.week2.services.EmployeeService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping(path = "/employees")
@@ -47,4 +48,9 @@ public class EmployeeController {
     return employeeService.deleteEmployeeById(employeeId);
   }
 
+  // partially update the details -> String is the key, where Object is the data we want to change
+  @PatchMapping(path = "/{employeeId}")
+  public EmployeeDTO updatePartialEmployeeById(@RequestBody Map<String, Object> newUpdate, @PathVariable Long employeeId) {
+    return employeeService.updatePartialEmployeeById(employeeId, newUpdate);
+  }
 }

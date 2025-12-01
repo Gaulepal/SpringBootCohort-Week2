@@ -3,16 +3,17 @@ package com.kumar.week2.services;
 import com.kumar.week2.dto.EmployeeDTO;
 import com.kumar.week2.entities.EmployeeEntity;
 import com.kumar.week2.repositories.EmployeeRepository;
-import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ReflectionUtils;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.lang.reflect.Field;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
-@Slf4j
 @Service
 public class EmployeeService {
 
@@ -71,14 +72,42 @@ public class EmployeeService {
     return modelMapper.map(savedEmployee, EmployeeDTO.class);
   }
 
+  // TODO: as we repeat userExist -> make a new method
+  public boolean isEmployeeExist(Long employeeId) {
+    // check
+    return employeeRepository.existsById(employeeId);
+  }
+
   public boolean deleteEmployeeById(Long employeeId) {
     // check
-    boolean exists = employeeRepository.existsById(employeeId);
-
-    // Not found
-    if (!exists) return false;
+    boolean exists = isEmployeeExist(employeeId);
 
     employeeRepository.deleteById(employeeId);
     return true; // Successfully deleted
   }
+
+  public EmployeeDTO updatePartialEmployeeById(Long employeeId, Map<String, Object> newUpdate) {
+    boolean exists = isEmployeeExist(employeeId);
+
+    if (!exists) return null;
+
+    // if not
+    EmployeeEntity employeeEntity = employeeRepository.findById(employeeId).get();
+
+    // now update only new value -> with `reflection` -> traversing each field and if matched -> update
+    newUpdate.forEach((field, value) -> {
+      // use Reflection
+      Field fieldToBeUpdated = ReflectionUtils.findField(EmployeeEntity.class, field);
+      // make it public because as of now fields are private in the Entity class
+      assert fieldToBeUpdated != null;
+      fieldToBeUpdated.setAccessible(true);
+
+      // set
+      ReflectionUtils.setField(fieldToBeUpdated, employeeEntity, value);
+    });
+
+    // save the new fields to the database
+    return modelMapper.map(employeeRepository.save(employeeEntity), EmployeeDTO.class);
+  }
+
 }
