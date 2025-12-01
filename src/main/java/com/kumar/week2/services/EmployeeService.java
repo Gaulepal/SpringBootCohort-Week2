@@ -71,12 +71,15 @@ public class EmployeeService {
     return modelMapper.map(savedEmployee, EmployeeDTO.class);
   }
 
-  public void deleteEmployeeById(Long employeeId) {
-    try {
-      employeeRepository.deleteById(employeeId);
-    } catch (Exception e) {
-      System.out.println("error while deleting... " + e);
+  public boolean deleteEmployeeById(Long employeeId) {
+    boolean exists = employeeRepository.existsById(employeeId);
+
+    if (!exists) {
+      return false; // Not found
     }
+
+    employeeRepository.deleteById(employeeId);
+    return true; // Successfully deleted
   }
 
 }
