@@ -3,12 +3,16 @@ package com.kumar.week2.services;
 import com.kumar.week2.dto.EmployeeDTO;
 import com.kumar.week2.entities.EmployeeEntity;
 import com.kumar.week2.repositories.EmployeeRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 public class EmployeeService {
 
@@ -53,16 +57,16 @@ public class EmployeeService {
   }
 
   public EmployeeDTO updateEmployeeById(Long employeeId, EmployeeDTO employeeDTO) {
-    // what we want to do if we do not find the employeeId in the database -> create new or throw exception (ask manager)
-    // case 1. for us -> lets create new if not found
-    EmployeeEntity employeeEntity = modelMapper.map(employeeDTO, EmployeeEntity.class); // convert DTO to Entity
-    // set the id to new Entity
-    employeeEntity.setId(employeeId);
-    // save new employeeEntity to the database
-    EmployeeEntity savedEmployeeEntity = employeeRepository.save(employeeEntity);
+    EmployeeEntity employeeEntity = employeeRepository.findById(employeeId)
+            .orElseThrow(() -> new ResponseStatusException(
+                    HttpStatus.NOT_FOUND,
+                    "Employee not found with id: " + employeeId
+            ));
 
-    // case 2. -> if we found then update
-    // try to find with given map -> it works like HashMap -> if key is present then update
-    return modelMapper.map(savedEmployeeEntity, EmployeeDTO.class);
+    // Update the existing entity with new values
+    modelMapper.map(employeeDTO, employeeEntity);
+
+    EmployeeEntity savedEmployee = employeeRepository.save(employeeEntity);
+    return modelMapper.map(savedEmployee, EmployeeDTO.class);
   }
 }
