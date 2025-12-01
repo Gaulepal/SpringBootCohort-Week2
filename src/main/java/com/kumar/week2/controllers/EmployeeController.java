@@ -1,7 +1,7 @@
 package com.kumar.week2.controllers;
 
 import com.kumar.week2.entities.EmployeeEntity;
-import com.kumar.week2.repositories.EmployeeRepository;
+import com.kumar.week2.services.EmployeeService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,10 +11,10 @@ import java.util.List;
 public class EmployeeController {
 
   // connect the repository
-  private final EmployeeRepository employeeRepository;
+  private final EmployeeService employeeService;
 
-  public EmployeeController(EmployeeRepository employeeRepository) {
-    this.employeeRepository = employeeRepository;
+  public EmployeeController(EmployeeService employeeService) {
+    this.employeeService = employeeService;
   }
 
   // take id as input
