@@ -43,4 +43,12 @@ public class EmployeeService {
             .map(employeeEntity -> modelMapper.map(employeeEntity, EmployeeDTO.class))
             .collect(Collectors.toList());
   }
+
+  public EmployeeDTO save(EmployeeDTO employeeDTO) {
+    // map before saving -> convert dto to Entity
+    EmployeeEntity toBeSavedEntity = modelMapper.map(employeeDTO, EmployeeEntity.class);
+    EmployeeEntity savedEmployeeEntity = employeeRepository.save(toBeSavedEntity);
+    // use modelMapper to convert entity to DTO
+    return modelMapper.map(savedEmployeeEntity, EmployeeDTO.class);
+  }
 }

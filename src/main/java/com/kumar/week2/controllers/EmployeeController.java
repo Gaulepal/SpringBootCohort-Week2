@@ -29,9 +29,9 @@ public class EmployeeController {
     return employeeService.findAll();
   }
 
-//  // create employee
-//  @PostMapping
-//  public EmployeeEntity createEmployee(@RequestBody EmployeeEntity employeeEntity) {
-//    return employeeRepository.save(employeeEntity);
-//  }
+  // create employee
+  @PostMapping
+  public EmployeeDTO createEmployee(@RequestBody EmployeeDTO employeeDTO) {
+    return employeeService.save(employeeDTO);
+  }
 }
