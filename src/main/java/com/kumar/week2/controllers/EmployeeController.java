@@ -20,8 +20,7 @@ public class EmployeeController {
   // take id as input
   @GetMapping("/{employeeId}")
   public EmployeeEntity getEmployeeById(@PathVariable(name = "employeeId") Long id) {
-//    return new EmployeeDTO(id, "Hora", "go@gm.com", 12, LocalDate.of(2005, 10, 4), true);
-    return employeeRepository.findById(id).orElse(null);
+    return employeeService.getEmployeeById(id).orElse(null);
   }
 
   // list of the employees -> required false to make it optional -> default is required
