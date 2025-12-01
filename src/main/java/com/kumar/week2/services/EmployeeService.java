@@ -51,4 +51,18 @@ public class EmployeeService {
     // use modelMapper to convert entity to DTO
     return modelMapper.map(savedEmployeeEntity, EmployeeDTO.class);
   }
+
+  public EmployeeDTO updateEmployeeById(Long employeeId, EmployeeDTO employeeDTO) {
+    // what we want to do if we do not find the employeeId in the database -> create new or throw exception (ask manager)
+    // case 1. for us -> lets create new if not found
+    EmployeeEntity employeeEntity = modelMapper.map(employeeDTO, EmployeeEntity.class); // convert DTO to Entity
+    // set the id to new Entity
+    employeeEntity.setId(employeeId);
+    // save new employeeEntity to the database
+    EmployeeEntity savedEmployeeEntity = employeeRepository.save(employeeEntity);
+
+    // case 2. -> if we found then update
+    // try to find with given map -> it works like HashMap -> if key is present then update
+    return modelMapper.map(savedEmployeeEntity, EmployeeDTO.class);
+  }
 }

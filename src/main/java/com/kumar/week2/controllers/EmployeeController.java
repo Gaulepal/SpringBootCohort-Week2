@@ -18,7 +18,7 @@ public class EmployeeController {
   }
 
   // take id as input
-  @GetMapping("/{employeeId}")
+  @GetMapping(path = "/{employeeId}")
   public EmployeeDTO getEmployeeById(@PathVariable(name = "employeeId") Long id) {
     return employeeService.getEmployeeById(id);
   }
@@ -33,5 +33,11 @@ public class EmployeeController {
   @PostMapping
   public EmployeeDTO createEmployee(@RequestBody EmployeeDTO employeeDTO) {
     return employeeService.save(employeeDTO);
+  }
+
+  // PUT -> when we need to update the entire employee details
+  @PutMapping(path = "/{employeeId}")
+  public EmployeeDTO updateEmployeeById(@RequestBody EmployeeDTO employeeDTO, @PathVariable Long employeeId) {
+    return employeeService.updateEmployeeById(employeeId, employeeDTO);
   }
 }
