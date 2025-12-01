@@ -72,14 +72,13 @@ public class EmployeeService {
   }
 
   public boolean deleteEmployeeById(Long employeeId) {
+    // check
     boolean exists = employeeRepository.existsById(employeeId);
 
-    if (!exists) {
-      return false; // Not found
-    }
+    // Not found
+    if (!exists) return false;
 
     employeeRepository.deleteById(employeeId);
     return true; // Successfully deleted
   }
-
 }
