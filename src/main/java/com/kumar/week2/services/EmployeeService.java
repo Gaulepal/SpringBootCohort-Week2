@@ -70,29 +70,23 @@ public class EmployeeService {
     return modelMapper.map(savedEmployee, EmployeeDTO.class);
   }
 
-  // TODO: as we repeat userExist -> make a new method
-  public boolean isEmployeeExist(Long employeeId) {
-    // check
-    return employeeRepository.existsById(employeeId);
+  // Private helper method
+  private void validateEmployeeExists(Long employeeId) {
+    employeeRepository.findById(employeeId)
+            .orElseThrow(() -> new ResourceNotFoundException("Employee not found with id: " + employeeId));
   }
 
   public boolean deleteEmployeeById(Long employeeId) {
     // check
-    boolean exists = isEmployeeExist(employeeId);
-
-    // not found
-    if (!exists) {
-      throw new ResourceNotFoundException("Employee not found with id: " + employeeId);
-    }
+    validateEmployeeExists(employeeId);
 
     employeeRepository.deleteById(employeeId);
     return true; // Successfully deleted
   }
 
   public EmployeeDTO updatePartialEmployeeById(Map<String, Object> newUpdate, Long employeeId) {
-    boolean exists = isEmployeeExist(employeeId);
-
-    if (!exists) return null;
+    // call method
+    validateEmployeeExists(employeeId);
 
     // if not
     EmployeeEntity employeeEntity = employeeRepository.findById(employeeId).get();
