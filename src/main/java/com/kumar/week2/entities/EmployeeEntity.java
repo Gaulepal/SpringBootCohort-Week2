@@ -1,6 +1,7 @@
 package com.kumar.week2.entities;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,6 +12,7 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 //@EqualsAndHashCode // 👈we should not use in the Entity because it has the problem with the `id` fields- > specially relational database
 @Table(name = "employees")
 public class EmployeeEntity {
@@ -24,6 +26,8 @@ public class EmployeeEntity {
   private String email;
 
   private Integer age;
+
+  private String role;
 
   private LocalDate dateOfJoining;
 

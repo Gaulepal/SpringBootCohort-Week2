@@ -24,7 +24,8 @@ public class EmployeeDTO {
   private Integer age;
 
   // add role -> ADMIN or USER -> regular expression always starts with `^` and ends with `$`
-  @Pattern(regexp = "^(ADMIN|USER)$")
+  @Pattern(regexp = "^(ADMIN|USER)$", message = "role can be USER or ADMIN")
+  @NotBlank(message = "role cannot be black!")
   private String role;
 
   private LocalDate dateOfJoining;
@@ -36,7 +37,7 @@ public class EmployeeDTO {
   }
 
   // constructor
-  public EmployeeDTO(Long id, String name, String email, Integer age, LocalDate dateOfJoining, Boolean isActive) {
+  public EmployeeDTO(Long id, String name, String email, Integer age, String role, LocalDate dateOfJoining, Boolean isActive) {
     this.id = id;
 
     this.name = name;
@@ -44,6 +45,8 @@ public class EmployeeDTO {
     this.email = email;
 
     this.age = age;
+
+    this.role = role;
 
     this.dateOfJoining = dateOfJoining;
 
