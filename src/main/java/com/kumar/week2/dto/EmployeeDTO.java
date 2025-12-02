@@ -43,6 +43,7 @@ public class EmployeeDTO {
   private LocalDate dateOfJoining;
 
   @NotNull
+  @AssertTrue(message = "isActive field must be active")
   private Boolean isActive;
 
   // default constructor -> to define the entity
