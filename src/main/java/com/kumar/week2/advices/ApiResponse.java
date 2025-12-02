@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 public class ApiResponse<T> {
 
   //  @Pattern(regexp = "hh-mm-ss dd-mm-yyyy")
-  @JsonFormat(pattern = "hh-mm-ss dd-mm-yyyy") // Jackson will format accordingly
+  @JsonFormat(pattern = "hh-mm-ss dd-MM-yyyy") // Jackson will format accordingly
   private LocalDateTime timestamp;
 
   private T data;
