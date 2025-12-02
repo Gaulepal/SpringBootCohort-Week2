@@ -1,7 +1,10 @@
 package com.kumar.week2.advices;
 
+import lombok.Data;
+
 import java.time.LocalDateTime;
 
+@Data
 public class ApiResponse<T> {
   private LocalDateTime timestamp;
   private T data;
