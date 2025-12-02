@@ -31,8 +31,14 @@ public class EmployeeDTO {
   @NotBlank(message = "role cannot be black!")
   private String role;
 
+  @NotNull(message = "salary field is required!")
+  @Positive
+  private Integer salary;
+
+  @PastOrPresent(message = "date of joining should be in past or present day!")
   private LocalDate dateOfJoining;
 
+  @NotNull
   private Boolean isActive;
 
   // default constructor -> to define the entity
@@ -40,7 +46,7 @@ public class EmployeeDTO {
   }
 
   // constructor
-  public EmployeeDTO(Long id, String name, String email, Integer age, String role, LocalDate dateOfJoining, Boolean isActive) {
+  public EmployeeDTO(Long id, String name, String email, Integer age, String role, Integer salary, LocalDate dateOfJoining, Boolean isActive) {
     this.id = id;
 
     this.name = name;
@@ -50,6 +56,8 @@ public class EmployeeDTO {
     this.age = age;
 
     this.role = role;
+
+    this.salary = salary;
 
     this.dateOfJoining = dateOfJoining;
 
