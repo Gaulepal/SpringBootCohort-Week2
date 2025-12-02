@@ -12,6 +12,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -29,16 +30,17 @@ public class EmployeeService {
   }
 
   // method
-  public EmployeeDTO getEmployeeById(Long id) {
+  public Optional<EmployeeDTO> getEmployeeById(Long id) {
     // create Entity
-    EmployeeEntity employeeEntity = employeeRepository.findById(id).orElse(null);
-//    // convert to DTO
-//    return new EmployeeDTO(Objects.requireNonNull(employeeEntity).getId(), employeeEntity.getName(), employeeEntity.getEmail(), employeeEntity.getAge(), employeeEntity.getDateOfJoining(), employeeEntity.getIsActive());
+//    Optional<EmployeeEntity> employeeEntity = employeeRepository.findById(id);
+    // convert to DTO
+    // return new EmployeeDTO(Objects.requireNonNull(employeeEntity).getId(), employeeEntity.getName(), employeeEntity.getEmail(), employeeEntity.getAge(), employeeEntity.getDateOfJoining(), employeeEntity.getIsActive());
 
     // create the object of ModelMapper
-//    ModelMapper modelMapper = new ModelMapper();
+    // ModelMapper modelMapper = new ModelMapper();
     // requires to params -> source, type class
-    return modelMapper.map(employeeEntity, EmployeeDTO.class);
+//    return employeeEntity.map(employeeEntity2 -> modelMapper.map(employeeEntity, EmployeeDTO.class));
+    return employeeRepository.findById(id).map(employeeEntity -> modelMapper.map(employeeEntity, EmployeeDTO.class));
   }
 
   public List<EmployeeDTO> findAll() {

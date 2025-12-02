@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "/employees")
@@ -22,17 +23,17 @@ public class EmployeeController {
   // take id as input
   @GetMapping(path = "/{employeeId}")
   public ResponseEntity<EmployeeDTO> getEmployeeById(@PathVariable(name = "employeeId") Long id) {
-    EmployeeDTO employeeDTO = employeeService.getEmployeeById(id);
-    if (employeeDTO == null) {
-      return ResponseEntity.notFound().build();
-    }
-    return ResponseEntity.ok(employeeDTO);
+    Optional<EmployeeDTO> employeeDTO = employeeService.getEmployeeById(id);
+
+    return employeeDTO
+            .map(employeeDTO1 -> ResponseEntity.ok(employeeDTO1))
+            .orElse(ResponseEntity.notFound().build());
   }
 
   // list of the employees -> required false to make it optional -> default is required
   @GetMapping
-  public List<EmployeeDTO> getAllEmployees(@RequestParam(required = false) Integer age, @RequestParam(required = false) String name) {
-    return employeeService.findAll();
+  public ResponseEntity<List<EmployeeDTO>> getAllEmployees(@RequestParam(required = false) Integer age, @RequestParam(required = false) String name) {
+    return ResponseEntity.ok(employeeService.findAll());
   }
 
   // create employee
