@@ -1,5 +1,6 @@
 package com.kumar.week2.dto;
 
+import com.kumar.week2.annotations.EmployeeRoleValidation;
 import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -29,7 +30,7 @@ public class EmployeeDTO {
   // add role -> ADMIN or USER -> regular expression always starts with `^` and ends with `$`
 //  @Pattern(regexp = "^(ADMIN|USER)$", message = "role can be USER or ADMIN")
 //  @NotBlank(message = "role cannot be black!")
-  
+  @EmployeeRoleValidation(message = "Hey! user role must be USER or ADMIN")
   private String role;
 
   @NotNull(message = "salary field is required!")
