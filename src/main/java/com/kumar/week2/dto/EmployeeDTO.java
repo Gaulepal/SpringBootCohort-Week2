@@ -34,7 +34,9 @@ public class EmployeeDTO {
   @NotNull(message = "salary field is required!")
   @Positive
   @Digits(integer = 6, fraction = 2, message = "salary cannot exceed 6 figure and 2 digits after decimal")
-  // not more than 6 figure and after decimal it has 2 digits
+  // not more than 6 figure and after decimal it has 2 digits -> salary must be 10k and max of 999999
+  @DecimalMin(value = "10000.00")
+  @DecimalMax(value = "999999.99")
   private Double salary;
 
   @PastOrPresent(message = "date of joining should be in past or present day!")
