@@ -14,30 +14,32 @@ import java.util.List;
 public class GlobalExceptionHandler {
 
   @ExceptionHandler(ResourceNotFoundException.class)
-  public ResponseEntity<ApiError> handleResourceNotFound(ResourceNotFoundException exception) {
+  public ResponseEntity<ApiResponse<?>> handleResourceNotFound(ResourceNotFoundException exception) {
     // create apiError object using builder
     ApiError apiError = ApiError.builder()
             .status(HttpStatus.NOT_FOUND)
             .message(exception.getMessage())
             .build();
-    return new ResponseEntity<>(apiError, HttpStatus.NOT_FOUND);
+    // create another method to build the error
+    return buildErrorResponseEntity(apiError);
   }
 
   // other Exceptions like generic -> `Exception.class` is the parent of all Exception classes
   @ExceptionHandler(Exception.class)
-  public ResponseEntity<ApiError> handleInternalServerError(Exception exception) {
+  public ResponseEntity<ApiResponse<?>> handleInternalServerError(Exception exception) {
     // create apiError object using builder
     ApiError apiError = ApiError.builder()
             .status(HttpStatus.INTERNAL_SERVER_ERROR)
             .message(exception.getMessage())
             .build();
 
-    return new ResponseEntity<>(apiError, HttpStatus.INTERNAL_SERVER_ERROR);
+    // create a new method
+    return buildErrorResponseEntity(apiError);
   }
 
   // another
   @ExceptionHandler(MethodArgumentNotValidException.class)
-  public ResponseEntity<ApiError> handleInputValidationErrors(MethodArgumentNotValidException exception) {
+  public ResponseEntity<ApiResponse<?>> handleInputValidationErrors(MethodArgumentNotValidException exception) {
     List<String> errors = exception.
             getBindingResult()
             .getAllErrors()
@@ -51,6 +53,13 @@ public class GlobalExceptionHandler {
             .subErrors(errors)
             .build();
 
-    return new ResponseEntity<>(apiError, HttpStatus.BAD_REQUEST);
+    // create a new method
+    return buildErrorResponseEntity(apiError);
   }
+
+  // helper method to build the error -> internal method must be below
+  private ResponseEntity<ApiResponse<?>> buildErrorResponseEntity(ApiError apiError) {
+    return new ResponseEntity<>(new ApiResponse<>(apiError), apiError.getStatus());
+  }
+
 }
