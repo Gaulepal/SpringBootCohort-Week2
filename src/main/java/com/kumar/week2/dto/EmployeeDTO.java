@@ -27,8 +27,9 @@ public class EmployeeDTO {
   private Integer age;
 
   // add role -> ADMIN or USER -> regular expression always starts with `^` and ends with `$`
-  @Pattern(regexp = "^(ADMIN|USER)$", message = "role can be USER or ADMIN")
-  @NotBlank(message = "role cannot be black!")
+//  @Pattern(regexp = "^(ADMIN|USER)$", message = "role can be USER or ADMIN")
+//  @NotBlank(message = "role cannot be black!")
+  
   private String role;
 
   @NotNull(message = "salary field is required!")
