@@ -23,12 +23,6 @@ public class EmployeeController {
     this.employeeService = employeeService;
   }
 
-  // TODO: exception handler
-  @ExceptionHandler(NoSuchElementException.class)
-  public ResponseEntity<String> handleEmployeeNotFound(NoSuchElementException exception) {
-    return new ResponseEntity<>("Employee not found...", HttpStatus.NOT_FOUND);
-  }
-
   // take id as input
   @GetMapping(path = "/{employeeId}")
   public ResponseEntity<EmployeeDTO> getEmployeeById(@PathVariable(name = "employeeId") Long id) {
