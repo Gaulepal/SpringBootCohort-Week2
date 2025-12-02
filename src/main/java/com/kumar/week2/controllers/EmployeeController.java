@@ -64,7 +64,7 @@ public class EmployeeController {
 
   // partially update the details -> String is the key, where Object is the data we want to change
   @PatchMapping(path = "/{employeeId}")
-  public ResponseEntity<EmployeeDTO> updatePartialEmployeeById(@RequestBody @Validga Map<String, Object> newUpdate, @PathVariable Long employeeId) {
+  public ResponseEntity<EmployeeDTO> updatePartialEmployeeById(@RequestBody @Valid Map<String, Object> newUpdate, @PathVariable Long employeeId) {
     // return  employeeService.updatePartialEmployeeById(newUpdate, employeeId);
     EmployeeDTO updatedEmployee = employeeService.updatePartialEmployeeById(newUpdate, employeeId);
 
