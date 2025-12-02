@@ -2,6 +2,7 @@ package com.kumar.week2.controllers;
 
 import com.kumar.week2.dto.EmployeeDTO;
 import com.kumar.week2.services.EmployeeService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,8 +39,12 @@ public class EmployeeController {
 
   // create employee
   @PostMapping
-  public EmployeeDTO createEmployee(@RequestBody EmployeeDTO employeeDTO) {
-    return employeeService.save(employeeDTO);
+  public ResponseEntity<EmployeeDTO> createEmployee(@RequestBody EmployeeDTO employeeDTO) {
+//    return employeeService.save(employeeDTO);
+    EmployeeDTO savedEmployee = employeeService.createEmployee(employeeDTO);
+    // using ResponseEntity constructor using `new`
+    return new ResponseEntity<>(savedEmployee, HttpStatus.CREATED);
+
   }
 
   // PUT -> when we need to update the entire employee details
