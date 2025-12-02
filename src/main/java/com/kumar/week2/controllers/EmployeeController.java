@@ -2,6 +2,7 @@ package com.kumar.week2.controllers;
 
 import com.kumar.week2.dto.EmployeeDTO;
 import com.kumar.week2.services.EmployeeService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,8 +21,12 @@ public class EmployeeController {
 
   // take id as input
   @GetMapping(path = "/{employeeId}")
-  public EmployeeDTO getEmployeeById(@PathVariable(name = "employeeId") Long id) {
-    return employeeService.getEmployeeById(id);
+  public ResponseEntity<EmployeeDTO> getEmployeeById(@PathVariable(name = "employeeId") Long id) {
+    EmployeeDTO employeeDTO = employeeService.getEmployeeById(id);
+    if (employeeDTO == null) {
+      return ResponseEntity.notFound().build();
+    }
+    return ResponseEntity.ok(employeeDTO);
   }
 
   // list of the employees -> required false to make it optional -> default is required
