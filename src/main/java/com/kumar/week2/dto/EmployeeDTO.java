@@ -33,7 +33,9 @@ public class EmployeeDTO {
 
   @NotNull(message = "salary field is required!")
   @Positive
-  private Integer salary;
+  @Digits(integer = 6, fraction = 2, message = "salary cannot exceed 6 figure and 2 digits after decimal")
+  // not more than 6 figure and after decimal it has 2 digits
+  private Double salary;
 
   @PastOrPresent(message = "date of joining should be in past or present day!")
   private LocalDate dateOfJoining;
@@ -46,7 +48,7 @@ public class EmployeeDTO {
   }
 
   // constructor
-  public EmployeeDTO(Long id, String name, String email, Integer age, String role, Integer salary, LocalDate dateOfJoining, Boolean isActive) {
+  public EmployeeDTO(Long id, String name, String email, Integer age, String role, Double salary, LocalDate dateOfJoining, Boolean isActive) {
     this.id = id;
 
     this.name = name;

@@ -29,7 +29,7 @@ public class EmployeeEntity {
 
   private String role;
 
-  private Integer salary;
+  private Double salary;
 
   private LocalDate dateOfJoining;
 
