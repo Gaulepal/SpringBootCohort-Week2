@@ -33,7 +33,7 @@ public class GlobalExceptionHandler {
             .message(exception.getMessage())
             .build();
 
-    // create a new method
+    // return error with newly created method
     return buildErrorResponseEntity(apiError);
   }
 
@@ -53,7 +53,7 @@ public class GlobalExceptionHandler {
             .subErrors(errors)
             .build();
 
-    // create a new method
+    // return error with newly created method
     return buildErrorResponseEntity(apiError);
   }
 
