@@ -84,8 +84,11 @@ public class EmployeeService {
     // check
     boolean exists = isEmployeeExist(employeeId);
 
-    employeeRepository.deleteById(employeeId);
-    return true; // Successfully deleted
+    if (exists) {
+      employeeRepository.deleteById(employeeId);
+      return true; // Successfully deleted
+    }
+    return false; // not found
   }
 
   public EmployeeDTO updatePartialEmployeeById(Map<String, Object> newUpdate, Long employeeId) {

@@ -49,19 +49,29 @@ public class EmployeeController {
 
   // PUT -> when we need to update the entire employee details
   @PutMapping(path = "/{employeeId}")
-  public EmployeeDTO updateEmployeeById(@RequestBody EmployeeDTO employeeDTO, @PathVariable Long employeeId) {
-    return employeeService.updateEmployeeById(employeeId, employeeDTO);
+  public ResponseEntity<EmployeeDTO> updateEmployeeById(@RequestBody EmployeeDTO employeeDTO, @PathVariable Long employeeId) {
+    return ResponseEntity.ok(employeeService.updateEmployeeById(employeeId, employeeDTO));
   }
 
   // delete by employeeId
   @DeleteMapping(path = "/{employeeId}")
-  public boolean deleteEmployeeById(@PathVariable Long employeeId) {
-    return employeeService.deleteEmployeeById(employeeId);
+  public ResponseEntity<Boolean> deleteEmployeeById(@PathVariable Long employeeId) {
+    boolean getDeleted = employeeService.deleteEmployeeById(employeeId);
+    if (getDeleted) return ResponseEntity.ok(true);
+    // else
+    return ResponseEntity.notFound().build();
   }
 
   // partially update the details -> String is the key, where Object is the data we want to change
   @PatchMapping(path = "/{employeeId}")
-  public EmployeeDTO updatePartialEmployeeById(@RequestBody Map<String, Object> newUpdate, @PathVariable Long employeeId) {
-    return employeeService.updatePartialEmployeeById(newUpdate, employeeId);
+  public ResponseEntity<EmployeeDTO> updatePartialEmployeeById(@RequestBody Map<String, Object> newUpdate, @PathVariable Long employeeId) {
+    // return  employeeService.updatePartialEmployeeById(newUpdate, employeeId);
+    EmployeeDTO updatedEmployee = employeeService.updatePartialEmployeeById(newUpdate, employeeId);
+
+    if (updatedEmployee == null) {
+      return ResponseEntity.notFound().build();
+    }
+    
+    return ResponseEntity.ok(updatedEmployee);
   }
 }
