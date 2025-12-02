@@ -86,7 +86,7 @@ public class EmployeeService {
     return true; // Successfully deleted
   }
 
-  public EmployeeDTO updatePartialEmployeeById(Long employeeId, Map<String, Object> newUpdate) {
+  public EmployeeDTO updatePartialEmployeeById(Map<String, Object> newUpdate, Long employeeId) {
     boolean exists = isEmployeeExist(employeeId);
 
     if (!exists) return null;
@@ -99,11 +99,12 @@ public class EmployeeService {
       // use Reflection
       Field fieldToBeUpdated = ReflectionUtils.findField(EmployeeEntity.class, field);
       // make it public because as of now fields are private in the Entity class
-      assert fieldToBeUpdated != null;
-      fieldToBeUpdated.setAccessible(true);
-
-      // set
-      ReflectionUtils.setField(fieldToBeUpdated, employeeEntity, value);
+      // Check if field exists before updating
+      if (fieldToBeUpdated != null) {
+        fieldToBeUpdated.setAccessible(true);
+        // set
+        ReflectionUtils.setField(fieldToBeUpdated, employeeEntity, value);
+      }
     });
 
     // save the new fields to the database
@@ -111,3 +112,4 @@ public class EmployeeService {
   }
 
 }
+
