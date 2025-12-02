@@ -3,9 +3,9 @@ package com.kumar.week2.advices;
 import java.time.LocalDateTime;
 
 public class ApiResponse<T> {
+  private LocalDateTime timestamp;
   private T data;
   private ApiError error;
-  private LocalDateTime timestamp;
 
   // default constructor that runs at least once while creating the object -> we can create the timestamp
   public ApiResponse() {
