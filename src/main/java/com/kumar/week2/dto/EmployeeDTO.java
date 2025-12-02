@@ -17,10 +17,12 @@ public class EmployeeDTO {
   private String name;
 
   @Email(message = "email is not valid!")
+  @NotBlank(message = "email field cannot be blank!")
   private String email;
 
   @Min(value = 18, message = "minor cannot work")
   @Max(value = 64, message = "age should not exceed 64")
+  @NotNull
   private Integer age;
 
   // add role -> ADMIN or USER -> regular expression always starts with `^` and ends with `$`
