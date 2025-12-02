@@ -2,12 +2,11 @@ package com.kumar.week2.services;
 
 import com.kumar.week2.dto.EmployeeDTO;
 import com.kumar.week2.entities.EmployeeEntity;
+import com.kumar.week2.exceptions.ResourceNotFoundException;
 import com.kumar.week2.repositories.EmployeeRepository;
 import org.modelmapper.ModelMapper;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ReflectionUtils;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.lang.reflect.Field;
 import java.util.List;
@@ -62,10 +61,7 @@ public class EmployeeService {
   public EmployeeDTO updateEmployeeById(Long employeeId, EmployeeDTO employeeDTO) {
     // first search the employeeById
     EmployeeEntity employeeEntity = employeeRepository.findById(employeeId)
-            .orElseThrow(() -> new ResponseStatusException(
-                    HttpStatus.NOT_FOUND,
-                    "Employee not found with id: " + employeeId
-            ));
+            .orElseThrow(() -> new ResourceNotFoundException("Employee not found with id: " + employeeId));
 
     // Update the existing entity with new values
     modelMapper.map(employeeDTO, employeeEntity);
