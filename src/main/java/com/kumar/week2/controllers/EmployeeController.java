@@ -1,6 +1,7 @@
 package com.kumar.week2.controllers;
 
 import com.kumar.week2.dto.EmployeeDTO;
+import com.kumar.week2.exceptions.ResourceNotFoundException;
 import com.kumar.week2.services.EmployeeService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -9,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @RestController
@@ -31,7 +31,7 @@ public class EmployeeController {
     return employeeDTO
             .map(employeeDTO1 -> ResponseEntity.ok(employeeDTO1))
             // .orElse(ResponseEntity.notFound().build());
-            .orElseThrow(() -> new NoSuchElementException("Employee not found..."));
+            .orElseThrow(() -> new ResourceNotFoundException("Employee not found :("));
   }
 
   // list of the employees -> required false to make it optional -> default is required
