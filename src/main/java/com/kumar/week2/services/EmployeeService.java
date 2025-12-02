@@ -115,6 +115,5 @@ public class EmployeeService {
     // save the new fields to the database
     return modelMapper.map(employeeRepository.save(employeeEntity), EmployeeDTO.class);
   }
-
 }
 
