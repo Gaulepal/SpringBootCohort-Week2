@@ -2,19 +2,22 @@ package com.kumar.week2.dto;
 
 import com.kumar.week2.annotations.EmployeeRoleValidation;
 import jakarta.validation.constraints.*;
+import java.time.LocalDate;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDate;
-
 @Getter
 @Setter
-public class EmployeeDTO {
+public class EmployeeDto {
 
   private Long id;
 
   @NotBlank(message = "name field cannot be blank!") // user may pass just empty spaces
-  @Size(min = 2, max = 15, message = "name should be at least 2 and max of 15 character long")
+  @Size(
+    min = 2,
+    max = 15,
+    message = "name should be at least 2 and max of 15 character long"
+  )
   private String name;
 
   @Email(message = "email is not valid!")
@@ -28,14 +31,18 @@ public class EmployeeDTO {
   private Integer age;
 
   // add role -> ADMIN or USER -> regular expression always starts with `^` and ends with `$`
-//  @Pattern(regexp = "^(ADMIN|USER)$", message = "role can be USER or ADMIN")
-//  @NotBlank(message = "role cannot be black!")
+  //  @Pattern(regexp = "^(ADMIN|USER)$", message = "role can be USER or ADMIN")
+  //  @NotBlank(message = "role cannot be black!")
   @EmployeeRoleValidation(message = "Hey! user role must be USER or ADMIN")
   private String role;
 
   @NotNull(message = "salary field is required!")
   @Positive
-  @Digits(integer = 6, fraction = 2, message = "salary cannot exceed 6 figure and 2 digits after decimal")
+  @Digits(
+    integer = 6,
+    fraction = 2,
+    message = "salary cannot exceed 6 figure and 2 digits after decimal"
+  )
   // not more than 6 figure and after decimal it has 2 digits -> salary must be 10k and max of 999999
   @DecimalMin(value = "10000.00")
   @DecimalMax(value = "999999.99")
@@ -49,11 +56,19 @@ public class EmployeeDTO {
   private Boolean isActive;
 
   // default constructor -> to define the entity
-  public EmployeeDTO() {
-  }
+  public EmployeeDto() {}
 
   // constructor
-  public EmployeeDTO(Long id, String name, String email, Integer age, String role, Double salary, LocalDate dateOfJoining, Boolean isActive) {
+  public EmployeeDto(
+    Long id,
+    String name,
+    String email,
+    Integer age,
+    String role,
+    Double salary,
+    LocalDate dateOfJoining,
+    Boolean isActive
+  ) {
     this.id = id;
 
     this.name = name;
@@ -70,5 +85,4 @@ public class EmployeeDTO {
 
     this.isActive = isActive;
   }
-
 }

@@ -1,6 +1,6 @@
 package com.kumar.week2.configs;
 
-import com.kumar.week2.dto.EmployeeDTO;
+import com.kumar.week2.dto.EmployeeDto;
 import com.kumar.week2.entities.EmployeeEntity;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
@@ -15,8 +15,9 @@ public class MapperConfig {
     ModelMapper modelMapper = new ModelMapper();
 
     // Skip ID field when mapping DTO to Entity
-    modelMapper.typeMap(EmployeeDTO.class, EmployeeEntity.class)
-            .addMappings(mapper -> mapper.skip(EmployeeEntity::setId));
+    modelMapper
+      .typeMap(EmployeeDto.class, EmployeeEntity.class)
+      .addMappings(mapper -> mapper.skip(EmployeeEntity::setId));
 
     return modelMapper;
   }

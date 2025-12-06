@@ -1,6 +1,6 @@
 package com.kumar.week2.controllers;
 
-import com.kumar.week2.dto.EmployeeDTO;
+import com.kumar.week2.dto.EmployeeDto;
 import com.kumar.week2.exceptions.ResourceNotFoundException;
 import com.kumar.week2.services.EmployeeService;
 import jakarta.validation.Valid;
@@ -24,10 +24,10 @@ public class EmployeeController {
 
   // take id as input
   @GetMapping(path = "/{employeeId}")
-  public ResponseEntity<EmployeeDTO> getEmployeeById(
+  public ResponseEntity<EmployeeDto> getEmployeeById(
     @PathVariable(name = "employeeId") Long id
   ) {
-    Optional<EmployeeDTO> employeeDTO = employeeService.getEmployeeById(id);
+    Optional<EmployeeDto> employeeDTO = employeeService.getEmployeeById(id);
 
     return employeeDTO
       .map(employeeDTO1 -> ResponseEntity.ok(employeeDTO1))
@@ -39,7 +39,7 @@ public class EmployeeController {
 
   // list of the employees -> required false to make it optional -> default is required
   @GetMapping
-  public ResponseEntity<List<EmployeeDTO>> getAllEmployees(
+  public ResponseEntity<List<EmployeeDto>> getAllEmployees(
     @RequestParam(required = false) Integer age,
     @RequestParam(required = false) String name
   ) {
@@ -48,19 +48,19 @@ public class EmployeeController {
 
   // create employee
   @PostMapping
-  public ResponseEntity<EmployeeDTO> createEmployee(
-    @RequestBody @Valid EmployeeDTO inputEmployee
+  public ResponseEntity<EmployeeDto> createEmployee(
+    @RequestBody @Valid EmployeeDto inputEmployee
   ) {
     // return employeeService.save(employeeDTO);
-    EmployeeDTO savedEmployee = employeeService.createEmployee(inputEmployee);
+    EmployeeDto savedEmployee = employeeService.createEmployee(inputEmployee);
     // using ResponseEntity constructor using `new`
     return new ResponseEntity<>(savedEmployee, HttpStatus.CREATED);
   }
 
   // PUT -> when we need to update the entire employee details
   @PutMapping(path = "/{employeeId}")
-  public ResponseEntity<EmployeeDTO> updateEmployeeById(
-    @RequestBody @Valid EmployeeDTO employeeDTO,
+  public ResponseEntity<EmployeeDto> updateEmployeeById(
+    @RequestBody @Valid EmployeeDto employeeDTO,
     @PathVariable Long employeeId
   ) {
     return ResponseEntity.ok(
@@ -81,12 +81,12 @@ public class EmployeeController {
 
   // partially update the details -> String is the key, where Object is the data we want to change
   @PatchMapping(path = "/{employeeId}")
-  public ResponseEntity<EmployeeDTO> updatePartialEmployeeById(
+  public ResponseEntity<EmployeeDto> updatePartialEmployeeById(
     @RequestBody @Valid Map<String, Object> newUpdate,
     @PathVariable Long employeeId
   ) {
     // return  employeeService.updatePartialEmployeeById(newUpdate, employeeId);
-    EmployeeDTO updatedEmployee = employeeService.updatePartialEmployeeById(
+    EmployeeDto updatedEmployee = employeeService.updatePartialEmployeeById(
       newUpdate,
       employeeId
     );
