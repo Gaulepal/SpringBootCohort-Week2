@@ -4,13 +4,12 @@ import com.kumar.week2.dto.EmployeeDTO;
 import com.kumar.week2.exceptions.ResourceNotFoundException;
 import com.kumar.week2.services.EmployeeService;
 import jakarta.validation.Valid;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(path = "/employees")
@@ -25,24 +24,33 @@ public class EmployeeController {
 
   // take id as input
   @GetMapping(path = "/{employeeId}")
-  public ResponseEntity<EmployeeDTO> getEmployeeById(@PathVariable(name = "employeeId") Long id) {
+  public ResponseEntity<EmployeeDTO> getEmployeeById(
+    @PathVariable(name = "employeeId") Long id
+  ) {
     Optional<EmployeeDTO> employeeDTO = employeeService.getEmployeeById(id);
 
     return employeeDTO
-            .map(employeeDTO1 -> ResponseEntity.ok(employeeDTO1))
-            // .orElse(ResponseEntity.notFound().build());
-            .orElseThrow(() -> new ResourceNotFoundException("Employee not found with id: " + id));
+      .map(employeeDTO1 -> ResponseEntity.ok(employeeDTO1))
+      // .orElse(ResponseEntity.notFound().build());
+      .orElseThrow(() ->
+        new ResourceNotFoundException("Employee not found with id: " + id)
+      );
   }
 
   // list of the employees -> required false to make it optional -> default is required
   @GetMapping
-  public ResponseEntity<List<EmployeeDTO>> getAllEmployees(@RequestParam(required = false) Integer age, @RequestParam(required = false) String name) {
+  public ResponseEntity<List<EmployeeDTO>> getAllEmployees(
+    @RequestParam(required = false) Integer age,
+    @RequestParam(required = false) String name
+  ) {
     return ResponseEntity.ok(employeeService.findAll());
   }
 
   // create employee
   @PostMapping
-  public ResponseEntity<EmployeeDTO> createEmployee(@RequestBody @Valid EmployeeDTO inputEmployee) {
+  public ResponseEntity<EmployeeDTO> createEmployee(
+    @RequestBody @Valid EmployeeDTO inputEmployee
+  ) {
     // return employeeService.save(employeeDTO);
     EmployeeDTO savedEmployee = employeeService.createEmployee(inputEmployee);
     // using ResponseEntity constructor using `new`
@@ -51,13 +59,20 @@ public class EmployeeController {
 
   // PUT -> when we need to update the entire employee details
   @PutMapping(path = "/{employeeId}")
-  public ResponseEntity<EmployeeDTO> updateEmployeeById(@RequestBody @Valid EmployeeDTO employeeDTO, @PathVariable Long employeeId) {
-    return ResponseEntity.ok(employeeService.updateEmployeeById(employeeId, employeeDTO));
+  public ResponseEntity<EmployeeDTO> updateEmployeeById(
+    @RequestBody @Valid EmployeeDTO employeeDTO,
+    @PathVariable Long employeeId
+  ) {
+    return ResponseEntity.ok(
+      employeeService.updateEmployeeById(employeeId, employeeDTO)
+    );
   }
 
   // delete by employeeId
   @DeleteMapping(path = "/{employeeId}")
-  public ResponseEntity<Boolean> deleteEmployeeById(@PathVariable Long employeeId) {
+  public ResponseEntity<Boolean> deleteEmployeeById(
+    @PathVariable Long employeeId
+  ) {
     boolean getDeleted = employeeService.deleteEmployeeById(employeeId);
     if (getDeleted) return ResponseEntity.ok(true);
     // else
@@ -66,9 +81,15 @@ public class EmployeeController {
 
   // partially update the details -> String is the key, where Object is the data we want to change
   @PatchMapping(path = "/{employeeId}")
-  public ResponseEntity<EmployeeDTO> updatePartialEmployeeById(@RequestBody @Valid Map<String, Object> newUpdate, @PathVariable Long employeeId) {
+  public ResponseEntity<EmployeeDTO> updatePartialEmployeeById(
+    @RequestBody @Valid Map<String, Object> newUpdate,
+    @PathVariable Long employeeId
+  ) {
     // return  employeeService.updatePartialEmployeeById(newUpdate, employeeId);
-    EmployeeDTO updatedEmployee = employeeService.updatePartialEmployeeById(newUpdate, employeeId);
+    EmployeeDTO updatedEmployee = employeeService.updatePartialEmployeeById(
+      newUpdate,
+      employeeId
+    );
 
     if (updatedEmployee == null) {
       return ResponseEntity.notFound().build();
